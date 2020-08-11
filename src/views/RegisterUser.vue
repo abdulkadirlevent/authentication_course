@@ -1,47 +1,22 @@
 <template>
   <div>
-    <form @submit.prevent="register">
-      <label for="name">
-        Name:
-      </label>
-      <input v-model="name" type="text" name="name" value>
-
-      <label for="email">
-        Email:
-      </label>
-      <input v-model="email" type="email" name="email" value>
-
-      <label for="password">
-        Password:
-      </label>
-      <input v-model="password" type="password" name="password" value>
-
-      <button type="submit" name="button">
-        Register
-      </button>
-      <router-link to="/login">
-        Already have an account? Login.
-      </router-link>
-    </form>
+    <AuthForm @submitForm="register" :askName="true" />
   </div>
 </template>
 
 <script>
+import AuthForm from '@/components/AuthForm.vue';
 export default {
-  data () {
-    return {
-      name: '',
-      email: '',
-      password: ''
-    }
+  components: {
+    AuthForm
   },
   methods: {
-    register () {
+    register ({name, email, password}) {
       this.$store
         .dispatch('register', {
-          name: this.name,
-          email: this.email,
-          password: this.password
+          name,
+          email,
+          password
         })
         .then(() => {
           this.$router.push({ name: 'dashboard' })
